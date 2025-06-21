@@ -1,18 +1,27 @@
-import logo from '../assets/logo.svg'
+import logo from '../assets/logo.svg';
+import { NavLink, Link } from 'react-router';
 
 function Nav() {
-
-
   return (
-    <nav className=''>
-      <div>
-        <img alt='test' src={logo} width='50'/>
-        <span className='h3'>Memory Game</span>
-      </div>
-     
-
+    <nav className="d-flex align-items-center justify-content-between px-4 py-2 border-bottom">
+      <a href="/" className="d-flex align-items-center text-decoration-none">
+        <img src={logo} alt="Logo" width="40" height="40" className="me-2 logo"/>
+        <span className="fs-4 fw-bold">Memory Game</span>
+      </a>
+      <ul className="d-flex list-unstyled mb-0 align-items-center">
+        <li className="ms-4">
+          <NavLink to='/how-to-play' className="text-dark text-decoration-none fw-bold">How to Play</NavLink>
+        </li>
+        <li className="ms-4">
+          <NavLink to='/leaderboard' className="text-dark text-decoration-none fw-bold">Leaderboard</NavLink>
+        </li>
+        <li className="ms-4">
+          <button className="btn btn-primary fw-bold">Start</button>
+        </li>
+      </ul>
     </nav>
-  )
+  );
+
 }
 
 export default Nav;
