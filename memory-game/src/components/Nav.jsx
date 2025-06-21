@@ -3,7 +3,7 @@ import { NavLink, Link } from 'react-router';
 
 function Nav() {
   return (
-    <nav className="d-flex align-items-center justify-content-between px-4 py-2 border-bottom">
+    <nav className="d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
       <a href="/" className="d-flex align-items-center text-decoration-none">
         <img src={logo} alt="Logo" width="40" height="40" className="me-2 logo"/>
         <span className="fs-4 fw-bold">Memory Game</span>

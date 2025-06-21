@@ -7,4 +7,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --primary-color: #0c7ff2;
+  --secondary-color: #e0f2fe;
+  --accent-color: #38bdf8;
+  --text-primary: #030712;
+  --text-secondary: #374151;
+  --background-color: #f0f9ff;
+  --card-background: #ffffff;
   }

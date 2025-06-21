@@ -2,9 +2,6 @@
   margin: 0 auto;
   text-align: center;
   color: #252525;
-
-  --primary-color: #3b80f4;
-  --secondary-color: #f1f9ff
 }
 
 nav {
@@ -21,5 +18,29 @@ nav {
 }
 
 button {
-  background-color: var(--primary-color) !important;
+  background-color: var(--primary-color);
+}
+
+.bg-gradient {
+  background: linear-gradient(to bottom right ,var(--primary-color), var(--accent-color)) !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.play-button {
+  border-radius: 999px; /* Fully rounded (pill) */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out, opacity 0.2s;
+}
+
+.play-button:hover {
+  transform: scale(1.05);
+  opacity: 0.95;
+}
+
+.main-section {
+  min-height: 80vh; /* Full screen height */
+  padding-top: 80px;  /* Optional: offset for navbar height */
+  padding-bottom: 80px;
 }
