@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './styles/App.css'
-import Nav from './components/Nav'
-import Footer from './components/Footer'
+import '../styles/App.css'
+import Nav from '../components/Nav'
+import Footer from '../components/Footer'
+import { Link } from 'react-router';
 
 function App() {
   return (
@@ -15,9 +15,11 @@ function App() {
           <p className="mb-4 fs-5">
             Challenge your mind and sharpen your focus with our engaging memory game.
           </p>
-          <button className="btn btn-lg btn-light fw-bold text-primary px-5 py-3 play-button">
-            Play Now
-          </button>
+          <Link to='/play'>
+            <button className="btn btn-lg btn-light fw-bold text-primary px-5 py-3 play-button">
+              Play Now
+            </button>
+          </Link>
         </div>
       </main>
       

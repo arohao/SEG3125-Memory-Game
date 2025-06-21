@@ -1,5 +1,5 @@
 import logo from '../assets/logo.svg';
-import { NavLink, Link } from 'react-router';
+import { NavLink } from 'react-router';
 
 function Nav() {
   return (
