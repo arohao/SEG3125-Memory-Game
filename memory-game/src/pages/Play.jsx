@@ -13,6 +13,9 @@ function Play() {
     Hard: 3,
   };
 
+  const BONUS_THRESHOLD = 60;
+  const BONUS_POINTS = 500;
+
   const [cards, setCards] = useState([]);
   const [firstChoice, setFirstChoice] = useState(null);
   const [secondChoice, setSecondChoice] = useState(null);
@@ -22,7 +25,12 @@ function Play() {
   const [showWin, setShowWin] = useState(false);
   const [difficulty, setDifficulty] = useState('Medium');
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [highScore, setHighScore] = useState(() => {
+    const saved = localStorage.getItem('highScore');
+    return saved ? parseInt(saved) : 0;
+  });
+
+  const [startTime, setStartTime] = useState(null);
 
   const shuffleCards = () => {
     const shuffled = [...images, ...images]
@@ -37,6 +45,7 @@ function Play() {
     setShowWin(false);
     setScore(0);
     setDisabled(false);
+    setStartTime(Date.now());
   };
 
   const handleChoice = (card) => {
@@ -57,16 +66,9 @@ function Play() {
           )
         );
 
-        // Add points
-        setScore((prev) => {
-          const newScore = prev + 200;
-          if (newScore > highScore) setHighScore(newScore);
-          return newScore;
-        });
-
+        setScore((prev) => prev + 200);
         setTimeout(resetTurn, 800);
       } else {
-        // Deduct points + reduce remaining moves
         setTimeout(() => {
           setScore((prev) => Math.max(prev - 50, 0));
           setRemainingMoves((prev) => {
@@ -84,10 +86,21 @@ function Play() {
   }, [firstChoice, secondChoice]);
 
   useEffect(() => {
-    // Win check
     if (cards.length && cards.every((card) => card.isMatched)) {
+      const timeTaken = (Date.now() - startTime) / 1000;
+      let finalScore = score;
+
+      if (timeTaken <= BONUS_THRESHOLD) {
+        finalScore += BONUS_POINTS;
+        setScore(finalScore);
+      }
+
+      if (finalScore > highScore) {
+        setHighScore(finalScore);
+        localStorage.setItem('highScore', finalScore);
+      }
+
       setShowWin(true);
-      if (score > highScore) setHighScore(score);
     }
   }, [cards]);
 
@@ -156,6 +169,7 @@ function Play() {
         </Modal.Header>
         <Modal.Body>
           <p>You ran out of moves! Final Score: {score}</p>
+          <p>Try again and beat your high score!</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowGameOver(false)}>
@@ -176,6 +190,10 @@ function Play() {
           <p>You matched all the cards!</p>
           <p>Your Score: {score}</p>
           <p>🏆 High Score: {highScore}</p>
+          {score > highScore ? <p>🎉 New Record!</p> : null}
+          {(Date.now() - startTime) / 1000 <= BONUS_THRESHOLD && (
+            <p> Bonus +{BONUS_POINTS} for fast completion!</p>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={shuffleCards}>
