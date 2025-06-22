@@ -1,46 +1,77 @@
-#root {
-  margin: 0 auto;
-  text-align: center;
-  color: #252525;
+:root {
+  --primary-color: #0c7ff2;
+  --accent-color: #38bdf8;
+  --text-primary: #030712;
+  --background-color: #f0f9ff;
 }
 
-nav {
-  background-color: #f1f9ff;
-  & .logo {
-    background-color: var(--primary-color);
-    padding: 5px;
-    border-radius: 25px;
-  }
-
-  & span {
-    color: var(--primary-color);
-  }
-}
-
-button {
-  background-color: var(--primary-color);
+.main-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
 }
 
 .bg-gradient {
-  background: linear-gradient(to bottom right ,var(--primary-color), var(--accent-color)) !important;
+  background: linear-gradient(to bottom right, var(--primary-color), var(--accent-color)) !important;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.play-button {
-  border-radius: 999px; /* Fully rounded (pill) */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease-in-out, opacity 0.2s;
+.game-container {
+  text-align: center;
+  padding: 20px;
 }
 
-.play-button:hover {
-  transform: scale(1.05);
-  opacity: 0.95;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  gap: 90px;
+  justify-content: center;
 }
 
-.main-section {
-  min-height: 80vh; /* Full screen height */
-  padding-top: 80px;  /* Optional: offset for navbar height */
-  padding-bottom: 80px;
+.card {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  perspective: 600px;
 }
+
+.card .flipped .back {
+  transform: rotateY(180deg);
+}
+
+.card .flipped .front {
+  left: 0;
+  transform: rotateY(0);
+}
+
+.card div {
+  width: 100%;
+  height: 100%;
+  transition: transform 0;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card img.front,
+.card .back {
+  position: absolute;
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.card img.front {
+  transform: rotateY(90deg);
+  object-fit: cover;
+}
+
+.card .back {
+  background: #0c7ff2;
+  cursor: pointer;
+}
+
