@@ -3,14 +3,22 @@ import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import Piece from '../components/Piece';
 import '../styles/App.css';
-import { images } from '../assets/cards/images';
 import { Modal, Button, Dropdown } from 'react-bootstrap';
+
+// Import themed image sets
+import { shapeImages } from '../assets/cards/themes/shapes';
+import { animalImages } from '../assets/cards/themes/animals';
 
 function Play() {
   const difficulties = {
     Easy: 8,
     Medium: 5,
     Hard: 3,
+  };
+
+  const themes = {
+    Animals: animalImages,
+    Shapes: shapeImages,
   };
 
   const BONUS_THRESHOLD = 20;
@@ -24,6 +32,7 @@ function Play() {
   const [showGameOver, setShowGameOver] = useState(false);
   const [showWin, setShowWin] = useState(false);
   const [difficulty, setDifficulty] = useState('Medium');
+  const [selectedTheme, setSelectedTheme] = useState('Shapes');
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(() => {
     const saved = localStorage.getItem('highScore');
@@ -33,7 +42,8 @@ function Play() {
   const [startTime, setStartTime] = useState(null);
 
   const shufflePieces = () => {
-    const shuffled = [...images, ...images]
+    const imagesToUse = themes[selectedTheme];
+    const shuffled = [...imagesToUse, ...imagesToUse]
       .map((img) => ({ ...img, id: Math.random(), isFlipped: false, isMatched: false }))
       .sort(() => Math.random() - 0.5);
 
@@ -65,7 +75,6 @@ function Play() {
             piece.src === firstChoice.src ? { ...piece, isMatched: true } : piece
           )
         );
-
         setScore((prev) => prev + 200);
         setTimeout(resetTurn, 800);
       } else {
@@ -112,7 +121,7 @@ function Play() {
 
   useEffect(() => {
     shufflePieces();
-  }, [difficulty]);
+  }, [difficulty, selectedTheme]);
 
   const handleDifficultyChange = (level) => {
     setDifficulty(level);
@@ -135,6 +144,19 @@ function Play() {
               {Object.keys(difficulties).map((level) => (
                 <Dropdown.Item eventKey={level} key={level}>
                   {level}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+
+          <Dropdown onSelect={(theme) => setSelectedTheme(theme)}>
+            <Dropdown.Toggle variant="outline-secondary" id="theme-dropdown">
+              Theme: {selectedTheme}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {Object.keys(themes).map((theme) => (
+                <Dropdown.Item eventKey={theme} key={theme}>
+                  {theme}
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>
@@ -190,9 +212,9 @@ function Play() {
           <p>You matched all the pieces!</p>
           <p>Your Score: {score}</p>
           <p>🏆 High Score: {highScore}</p>
-          {score > highScore ? <p>🎉 New Record!</p> : null}
+          {score > highScore && <p>🎉 New Record!</p>}
           {(Date.now() - startTime) / 1000 <= BONUS_THRESHOLD && (
-            <p> Bonus +{BONUS_POINTS} for fast completion!</p>
+            <p>Bonus +{BONUS_POINTS} for fast completion!</p>
           )}
         </Modal.Body>
         <Modal.Footer>
