@@ -1,18 +1,18 @@
-function Card({ card, handleChoice, flipped, disabled }) {
+function piece({ piece, handleChoice, flipped, disabled }) {
   const handleClick = () => {
     if (!disabled && !flipped) {
-      handleChoice(card);
+      handleChoice(piece);
     }
   };
 
   return (
-    <div className="card">
+    <div className="piece">
       <div className={flipped ? 'flipped' : ''}>
-        <img className="front" src={card.src} alt="card front" />
+        <img className="front" src={piece.src} alt="piece front" />
         <div className="back" onClick={handleClick}></div>
       </div>
     </div>
   );
 }
 
-export default Card;
+export default piece;

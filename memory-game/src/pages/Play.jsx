@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import Card from '../components/Card';
+import Piece from '../components/Piece';
 import '../styles/App.css';
 import { images } from '../assets/cards/images';
 import { Modal, Button, Dropdown } from 'react-bootstrap';
@@ -13,10 +13,10 @@ function Play() {
     Hard: 3,
   };
 
-  const BONUS_THRESHOLD = 60;
+  const BONUS_THRESHOLD = 20;
   const BONUS_POINTS = 500;
 
-  const [cards, setCards] = useState([]);
+  const [pieces, setPieces] = useState([]);
   const [firstChoice, setFirstChoice] = useState(null);
   const [secondChoice, setSecondChoice] = useState(null);
   const [disabled, setDisabled] = useState(false);
@@ -32,14 +32,14 @@ function Play() {
 
   const [startTime, setStartTime] = useState(null);
 
-  const shuffleCards = () => {
+  const shufflePieces = () => {
     const shuffled = [...images, ...images]
       .map((img) => ({ ...img, id: Math.random(), isFlipped: false, isMatched: false }))
       .sort(() => Math.random() - 0.5);
 
     setFirstChoice(null);
     setSecondChoice(null);
-    setCards(shuffled);
+    setPieces(shuffled);
     setRemainingMoves(difficulties[difficulty]);
     setShowGameOver(false);
     setShowWin(false);
@@ -48,9 +48,9 @@ function Play() {
     setStartTime(Date.now());
   };
 
-  const handleChoice = (card) => {
-    if (!disabled && card !== firstChoice) {
-      firstChoice ? setSecondChoice(card) : setFirstChoice(card);
+  const handleChoice = (piece) => {
+    if (!disabled && piece !== firstChoice) {
+      firstChoice ? setSecondChoice(piece) : setFirstChoice(piece);
     }
   };
 
@@ -60,9 +60,9 @@ function Play() {
       const isMatch = firstChoice.src === secondChoice.src;
 
       if (isMatch) {
-        setCards((prev) =>
-          prev.map((card) =>
-            card.src === firstChoice.src ? { ...card, isMatched: true } : card
+        setPieces((prev) =>
+          prev.map((piece) =>
+            piece.src === firstChoice.src ? { ...piece, isMatched: true } : piece
           )
         );
 
@@ -86,7 +86,7 @@ function Play() {
   }, [firstChoice, secondChoice]);
 
   useEffect(() => {
-    if (cards.length && cards.every((card) => card.isMatched)) {
+    if (pieces.length && pieces.every((piece) => piece.isMatched)) {
       const timeTaken = (Date.now() - startTime) / 1000;
       let finalScore = score;
 
@@ -102,7 +102,7 @@ function Play() {
 
       setShowWin(true);
     }
-  }, [cards]);
+  }, [pieces]);
 
   const resetTurn = () => {
     setFirstChoice(null);
@@ -111,7 +111,7 @@ function Play() {
   };
 
   useEffect(() => {
-    shuffleCards();
+    shufflePieces();
   }, [difficulty]);
 
   const handleDifficultyChange = (level) => {
@@ -124,7 +124,7 @@ function Play() {
 
       <div className="game-container flex-grow-1 d-flex flex-column gap-4 align-items-center justify-content-center text-center px-4 py-5">
         <h1 className="my-0">Memory Match</h1>
-        <p className="fs-5 mb-2">Match cards to earn points. Watch out—mistakes cost you!</p>
+        <p className="fs-5 mb-2">Match pieces to earn points. Watch out—mistakes cost you!</p>
 
         <div className="d-flex flex-column align-items-center gap-2">
           <Dropdown onSelect={handleDifficultyChange}>
@@ -145,19 +145,19 @@ function Play() {
           <div className="text-primary">High Score: {highScore}</div>
         </div>
 
-        <div className="card-grid">
-          {cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
+        <div className="piece-grid">
+          {pieces.map((piece) => (
+            <Piece
+              key={piece.id}
+              piece={piece}
               handleChoice={handleChoice}
-              flipped={card === firstChoice || card === secondChoice || card.isMatched}
+              flipped={piece === firstChoice || piece === secondChoice || piece.isMatched}
               disabled={disabled}
             />
           ))}
         </div>
 
-        <button onClick={shuffleCards} className="btn btn-primary mt-4">New Game</button>
+        <button onClick={shufflePieces} className="btn btn-primary mt-4">New Game</button>
       </div>
 
       <Footer />
@@ -175,7 +175,7 @@ function Play() {
           <Button variant="secondary" onClick={() => setShowGameOver(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={shuffleCards}>
+          <Button variant="primary" onClick={shufflePieces}>
             New Game
           </Button>
         </Modal.Footer>
@@ -187,7 +187,7 @@ function Play() {
           <Modal.Title>You Win!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>You matched all the cards!</p>
+          <p>You matched all the pieces!</p>
           <p>Your Score: {score}</p>
           <p>🏆 High Score: {highScore}</p>
           {score > highScore ? <p>🎉 New Record!</p> : null}
@@ -196,7 +196,7 @@ function Play() {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={shuffleCards}>
+          <Button variant="primary" onClick={shufflePieces}>
             Play Again
           </Button>
         </Modal.Footer>

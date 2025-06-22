@@ -25,30 +25,30 @@
   padding: 20px;
 }
 
-.card-grid {
+.piece-grid {
   display: grid;
   grid-template-columns: repeat(4, 100px);
   gap: 10px;
   justify-content: center;
 }
 
-.card {
+.piece {
   position: relative;
   width: 100px;
   height: 100px;
   perspective: 600px;
 }
 
-.card .flipped .back {
+.piece .flipped .back {
   transform: rotateY(180deg);
 }
 
-.card .flipped .front {
+.piece .flipped .front {
   left: 0;
   transform: rotateY(0);
 }
 
-.card div {
+.piece div {
   width: 100%;
   height: 100%;
   transition: transform 0;
@@ -56,8 +56,8 @@
   position: relative;
 }
 
-.card img.front,
-.card .back {
+.piece img.front,
+.piece .back {
   position: absolute;
   backface-visibility: hidden;
   width: 100%;
@@ -65,13 +65,28 @@
   border-radius: 10px;
 }
 
-.card img.front {
+.piece img.front {
   transform: rotateY(90deg);
   object-fit: cover;
 }
 
-.card .back {
+.piece .back {
   background: #0c7ff2;
   cursor: pointer;
 }
 
+.table th,
+.table td {
+  vertical-align: middle;
+  font-size: 1rem;
+}
+
+.nav-tabs .nav-link {
+  color: white;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: white;
+  color: var(--primary-color);
+  border: none;
+}

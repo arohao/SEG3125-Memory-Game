@@ -16,7 +16,7 @@ function Nav() {
           <NavLink to='/leaderboard' className="text-dark text-decoration-none fw-bold">Leaderboard</NavLink>
         </li>
         <li className="ms-4">
-          <button className="btn btn-primary fw-bold">Start</button>
+          <NavLink to='/sign-up'><button className="btn btn-primary fw-bold">Sign Up</button></NavLink>
         </li>
       </ul>
     </nav>
